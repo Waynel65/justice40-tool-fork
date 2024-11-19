@@ -24,7 +24,9 @@ RUN /bin/sh -c make && make install
 
 ## gdal
 RUN add-apt-repository ppa:ubuntugis/ppa
-RUN apt-get -y install gdal-bin
+RUN apt-get update && apt-get -y install gdal-bin libgdal-dev
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal
+RUN export C_INCLUDE_PATH=/usr/include/gdal
 
 # Python package installation using poetry. See:
 # https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker
@@ -39,7 +41,9 @@ ENV PYTHONFAULTHANDLER=1 \
 WORKDIR /data-pipeline
 COPY . /data-pipeline
 
-RUN pip install "poetry==$POETRY_VERSION"
+# RUN pip install "poetry==$POETRY_VERSION"
+RUN pip install poetry
+RUN poetry lock --no-update
 RUN poetry config virtualenvs.create false \
   && poetry config virtualenvs.in-project false \
   && poetry install --no-dev --no-interaction --no-ansi

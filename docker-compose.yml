@@ -24,7 +24,7 @@ services:
     volumes:
       - ./data/data-pipeline/data_pipeline/data/score:/data/data-pipeline/data_pipeline/data/score
     ports:
-      - 5000:8080
+      - 5001:8080
     environment:
       TZ: America/Los_Angeles
 
